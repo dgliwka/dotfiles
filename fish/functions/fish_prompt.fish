@@ -1,1 +1,1 @@
-/home/dave/.local/share/omf/themes/nai/fish_prompt.fish
+/home/dave/.local/share/omf/themes/taktoa/fish_prompt.fish
