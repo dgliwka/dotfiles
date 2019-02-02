@@ -1,64 +1,72 @@
-function fish_prompt --description 'Write out the prompt'
-	set laststatus $status
+function fish_prompt
+	if not set -q -g __fish_robbyrussell_functions_defined
+    set -g __fish_robbyrussell_functions_defined
     function _git_branch_name
-        echo (git symbolic-ref HEAD ^/dev/null | sed -e 's|^refs/heads/||')
+      echo (git symbolic-ref HEAD ^/dev/null | sed -e 's|^refs/heads/||')
     end
+
     function _is_git_dirty
-        echo (git status -s --ignore-submodules=dirty ^/dev/null)
+      echo (git status -s --ignore-submodules=dirty ^/dev/null)
     end
-    if [ (_git_branch_name) ]
-        set -l git_branch (set_color -o blue)(_git_branch_name)
-        if [ (_is_git_dirty) ]
-            for i in (git branch -qv --no-color| string match -r \*|cut -d' ' -f4-|cut -d] -f1|tr , \n)\
-                (git status --porcelain | cut -c 1-2 | uniq)
-                switch $i
-                    case "*[ahead *"
-                        set git_status "$git_status"(set_color red)⬆
-                    case "*behind *"
-                        set git_status "$git_status"(set_color red)⬇
-                    case "."
-                        set git_status "$git_status"(set_color green)✚
-                    case " D"
-                        set git_status "$git_status"(set_color red)✖
-                    case "*M*"
-                        set git_status "$git_status"(set_color green)✱
-                    case "*R*"
-                        set git_status "$git_status"(set_color purple)➜
-                    case "*U*"
-                        set git_status "$git_status"(set_color brown)═
-                    case "??"
-                        set git_status "$git_status"(set_color red)≠
-                end
-            end
-        else
-            set git_status (set_color green):
-        end
-        set git_info "(git$git_status$git_branch"(set_color white)")"
+
+    function _is_git_repo
+      type -q git; or return 1
+      git status -s >/dev/null ^/dev/null
     end
-    set_color -b black
-    printf '%s%s%s%s%s%s%s%s%s%s%s%s%s'\
-    (set_color -o white)               \
-    '❰'                                \
-    (set_color green)                  \
-    $USER                              \
-    (set_color white)                  \
-    '❙'                                \
-    (set_color yellow)                 \
-    (echo $PWD | sed -e "s|^$HOME|~|") \
-    (set_color white)                  \
-    $git_info                          \
-    (set_color white)                  \
-    '❱'                                \
-    (set_color white)
-    if test $laststatus -eq 0
-        printf "%s✔%s≻%s "  \
-        (set_color -o green)\
-        (set_color white)   \
-        (set_color normal)
-    else
-        printf "%s✘%s≻%s "  \
-        (set_color -o red)  \
-        (set_color white)   \
-        (set_color normal)
+
+    function _hg_branch_name
+      echo (hg branch ^/dev/null)
     end
+
+    function _is_hg_dirty
+      echo (hg status -mard ^/dev/null)
+    end
+
+    function _is_hg_repo
+      type -q hg; or return 1
+      hg summary >/dev/null ^/dev/null
+    end
+
+    function _repo_branch_name
+      eval "_$argv[1]_branch_name"
+    end
+
+    function _is_repo_dirty
+      eval "_is_$argv[1]_dirty"
+    end
+
+    function _repo_type
+      if _is_hg_repo
+        echo 'hg'
+      else if _is_git_repo
+        echo 'git'
+      end
+    end
+  end
+
+  set -l cyan (set_color -o cyan)
+  set -l yellow (set_color -o yellow)
+  set -l red (set_color -o red)
+  set -l blue (set_color -o blue)
+  set -l normal (set_color normal)
+
+  set -l arrow "$red➜ "
+  if [ $USER = 'root' ]
+    set arrow "$red# "
+  end
+
+  set -l cwd $cyan(basename (prompt_pwd))
+
+  set -l repo_type (_repo_type)
+  if [ $repo_type ]
+    set -l repo_branch $red(_repo_branch_name $repo_type)
+    set repo_info "$blue $repo_type:($repo_branch$blue)"
+
+    if [ (_is_repo_dirty $repo_type) ]
+      set -l dirty "$yellow ✗"
+      set repo_info "$repo_info$dirty"
+    end
+  end
+
+  echo -n -s $arrow ' '$cwd $repo_info $normal ' '
 end
