@@ -1,6 +1,6 @@
 
 #install fish
-sudo apt-get -y install fish
+sudo apt-get -y install fish vim tmux
 
 #install omf
 curl -L https://get.oh-my.fish | fish
