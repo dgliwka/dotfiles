@@ -1,0 +1,19 @@
+version: "2"
+services:
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Warsaw
+      - TRANSMISSION_WEB_HOME=/transmission-web-control/ #optional
+    volumes:
+      - ./config:/config
+      - /mnt/hdd:/downloads
+      - /mnt/hdd/watch:/watch
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    restart: unless-stopped
