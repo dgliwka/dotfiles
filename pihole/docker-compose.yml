@@ -1,4 +1,4 @@
-version: "3"
+version: "3.7"
 
 # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
 services:
@@ -16,8 +16,8 @@ services:
       WEBPASSWORD: 'testtesttestolamonika'
       ServerIP: 192.168.1.2
     volumes:
-       - './etc-pihole/:/etc/pihole/'
-       - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
+       - pihole-volume:/etc/pihole
+       - dnsmasq.d-volume:/etc/dnsmasq.d
     dns:
       - 127.0.0.1
       - 1.1.1.1
@@ -26,3 +26,6 @@ services:
     cap_add:
       - NET_ADMIN
     restart: unless-stopped
+volumes:
+  pihole-volume:
+  dnsmasq.d-volume:

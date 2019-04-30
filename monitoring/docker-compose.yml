@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    networks:
+      - monitoring
+    volumes:
+      - grafana-volume:/var/lib/grafana
+        
+  influxdb:
+    image: influxdb
+    container_name: influxdb
+    restart: unless-stopped
+    ports:
+      - 8086:8086
+      - 8083:8083
+      - 25826:25826/udp
+    networks:
+      - monitoring
+    volumes:
+      - influxdb-volume:/var/lib/influxdb
+      - $PWD/influxdb.conf:/etc/influxdb/influxdb.conf:ro
+      - $PWD/types.db:/usr/share/collectd/types.db:ro 
+networks:
+  monitoring:
+volumes:
+  grafana-volume:
+  influxdb-volume:
