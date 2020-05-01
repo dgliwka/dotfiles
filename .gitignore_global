@@ -1,0 +1,16 @@
+# vim & Emacs temp files
+*~
+.*.swp
+.*.swo
+
+# Macbook's storage files
+.DS_Store
+
+# Jet Brains IDE's metadata
+.idea
+
+# Vim sessions
+session.vim
+
+# VScode
+.vscode

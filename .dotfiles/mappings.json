@@ -9,6 +9,8 @@
 		".eslintrc.json": "~/.eslintrc.json",
 		".eslintrc.yml":  "~/.eslintrc.yml",
 		".gvimrc":        "~/.gvimrc",
+		".gitconfig":     "~/.gitconfig",
+		".gitignore_global":"~/.gitignore_global",
 		".npmrc":         "~/.npmrc",
 		".profile":       "~/.profile",
 		".pryrc":         "~/.pryrc",
