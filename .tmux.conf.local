@@ -299,3 +299,5 @@ bind C-a send-prefix
 bind-key X kill-window
 bind-key x kill-pane
 
+# use zsh as default shell
+set-option -g default-shell /bin/zsh
