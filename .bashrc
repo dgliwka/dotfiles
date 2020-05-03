@@ -113,3 +113,7 @@ if ! shopt -oq posix; then
 fi
 
 alias la='ls -la'
+
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+  tmux a || exec tmux new;
+fi
