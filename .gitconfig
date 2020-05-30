@@ -1,0 +1,9 @@
+[user]
+	email = dawid.gliwka@gmail.com
+	name = Dawid Gliwka
+
+[core]
+	editor = vim
+	pager = less
+
+	excludesfile = ~/.gitignore_global
