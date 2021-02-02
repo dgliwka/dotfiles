@@ -10,6 +10,7 @@ key:
 	cat $(KEYFILE)
 	gpg --default-new-key-algo rsa4096 --gen-key
 	gpg --armor --export
+	git config commit.gpgsign true
 
 run: setup ## run the app
 	@echo "Not implemented"; false
