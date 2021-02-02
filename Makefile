@@ -6,7 +6,7 @@
 
 KEYFILE=~/.ssh/id_ed25519.pub
 GPGPUBRING=~/.gnupg/pubring.kbx
-key:
+key: ## generate SSH and GPG keys
 	## SSH
 	[ -f $(KEYFILE) ] || ssh-keygen -t ed25519 -C "dawid.gliwka@gmail.com"
 	cat $(KEYFILE)
