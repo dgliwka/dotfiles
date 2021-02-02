@@ -5,10 +5,13 @@
 .PHONY: key env-up env-down env-recreate container run build lint test
 
 KEYFILE=~/.ssh/id_ed25519.pub
-key: 
+GPGPUBRING=~/.gnupg/pubring.kbx
+key:
+	## SSH
 	[ -f $(KEYFILE) ] || ssh-keygen -t ed25519 -C "dawid.gliwka@gmail.com"
 	cat $(KEYFILE)
-	gpg --default-new-key-algo rsa4096 --gen-key
+	## GPG
+	[ -f $(GPGPUBRING) ] || gpg --default-new-key-algo rsa4096 --gen-key
 	gpg --armor --export
 	git config commit.gpgsign true
 
