@@ -1,0 +1,44 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+source <(antibody init)
+antibody bundle zsh-users/zsh-completions
+antibody bundle zsh-users/zsh-syntax-highlighting
+
+antibody bundle ohmyzsh/ohmyzsh
+
+# Load bundles from the default repo (oh-my-zsh)
+antibody bundle ohmyzsh/ohmyzsh path:plugins/git
+antibody bundle ohmyzsh/ohmyzsh path:plugins/brew
+antibody bundle ohmyzsh/ohmyzsh path:plugins/terraform
+antibody bundle ohmyzsh/ohmyzsh path:plugins/docker
+antibody bundle ohmyzsh/ohmyzsh path:plugins/docker-compose
+antibody bundle ohmyzsh/ohmyzsh path:plugins/direnv
+antibody bundle ohmyzsh/ohmyzsh path:plugins/fzf
+antibody bundle wfxr/forgit
+antibody bundle ohmyzsh/ohmyzsh path:plugins/command-not-found
+antibody bundle scriptingosx/mac-zsh-completions
+antibody bundle ohmyzsh/ohmyzsh path:plugins/kubectl
+
+antibody bundle robbyrussell/oh-my-zsh path:plugins/aws
+source /opt/homebrew/etc/bash_completion.d/az
+
+# Load bundles from external repos
+antibody bundle zsh-users/zsh-completions
+antibody bundle zsh-users/zsh-autosuggestions
+antibody bundle zsh-users/zsh-syntax-highlighting
+
+# Select theme
+antibody bundle romkatv/powerlevel10k
+
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=241"
+unsetopt histverify
+
